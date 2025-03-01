@@ -10,7 +10,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainView.fxml"));
         primaryStage.setScene(new Scene(loader.load()));
-        primaryStage.setTitle("Car Tax Calculator");
+        primaryStage.setTitle("Cálculo de impuestos de un carro");
         primaryStage.show();
     }
 
