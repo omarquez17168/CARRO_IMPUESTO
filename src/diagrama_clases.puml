@@ -1,0 +1,46 @@
+@startuml
+package modelo {
+    class Vehiculo {
+        - marcaModelo: String
+        - anio: int
+        - cilindraje: int
+        - avaluo: double
+        - tipoUso: String
+        + Vehiculo(String, int, int, double, String)
+        + getMarcaModelo(): String
+        + getAnio(): int
+        + getCilindraje(): int
+        + getAvaluo(): double
+        + getTipoUso(): String
+    }
+
+    class CalculadoraImpuestos {
+        + static calcularImpuesto(Vehiculo): double
+    }
+}
+
+package controlador {
+    class ControladorPrincipal {
+        - txtMarcaModelo: TextField
+        - cmbAnio: ComboBox<Integer>
+        - cmbCilindraje: ComboBox<Integer>
+        - txtAvaluo: TextField
+        - cmbTipoUso: ComboBox<String>
+        - lblResultado: Label
+        + initialize()
+        + calcularImpuesto()
+        + limpiarCampos()
+    }
+}
+
+package vista {
+    class MainView {
+        + Interfaz gráfica en JavaFX
+    }
+}
+
+Vehiculo --> CalculadoraImpuestos : "Calcula impuesto"
+ControladorPrincipal --> Vehiculo : "Crea y usa"
+ControladorPrincipal --> CalculadoraImpuestos : "Llama a"
+ControladorPrincipal --> MainView : "Controla la vista"
+@enduml
