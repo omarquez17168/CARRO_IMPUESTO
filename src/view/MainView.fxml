@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.111"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controlador.ControladorPrincipal">
+
+    <Label text="Calculadora de Impuesto Vehicular" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <Label text="Marca y Modelo del Vehículo:"/>
+    <TextField fx:id="txtMarcaModelo"/>
+
+    <Label text="Año de Fabricación:"/>
+    <TextField fx:id="txtAnio"/>
+
+    <Label text="Cilindraje (cc):"/>
+    <TextField fx:id="txtCilindraje"/>
+
+    <Label text="Avalúo Comercial ($):"/>
+    <TextField fx:id="txtAvaluo"/>
+
+    <Label text="Tipo de Vehículo (Particular/Público):"/>
+    <TextField fx:id="txtTipoVehiculo"/>
+
+    <Button text="Calcular Impuesto" onAction="#calcularImpuesto"/>
+
+    <Label fx:id="lblResultado" text="Monto del Impuesto: $" style="-fx-font-size: 16px; -fx-text-fill: green;"/>
+
+    <Button text="Limpiar Campos" onAction="#limpiarCampos"/>
+
+</VBox>
