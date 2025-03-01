@@ -1,92 +1,82 @@
 package controlador;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import modelo.Vehiculo;
+import modelo.CalculadoraImpuestos;
 
-public class ControladorPrincipal {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ControladorPrincipal implements Initializable {
 
     @FXML
     private TextField txtMarcaModelo;
 
     @FXML
-    private TextField txtAnio;
+    private ComboBox<Integer> cmbAnio;
 
     @FXML
-    private TextField txtCilindraje;
+    private ComboBox<Integer> cmbCilindraje;
 
     @FXML
     private TextField txtAvaluo;
 
     @FXML
-    private TextField txtTipoVehiculo;
+    private ComboBox<String> cmbTipoUso;
 
     @FXML
     private Label lblResultado;
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Llenar lista de años (últimos 30 años)
+        for (int i = 2024; i >= 1990; i--) {
+            cmbAnio.getItems().add(i);
+        }
+
+        // Llenar lista de cilindrajes comunes
+        int[] cilindrajes = {1000, 1250, 1500, 1600, 1800, 2000, 2500, 3000, 3500, 4000};
+        for (int cil : cilindrajes) {
+            cmbCilindraje.getItems().add(cil);
+        }
+
+        // Llenar lista de tipos de uso
+        cmbTipoUso.getItems().addAll("Particular", "Público");
+    }
+
     @FXML
     private void calcularImpuesto() {
         try {
-            // 📌 Limpiar formato del avalúo (quitar comas y apóstrofes)
+            String marcaModelo = txtMarcaModelo.getText();
+            int anio = cmbAnio.getValue();
+            int cilindraje = cmbCilindraje.getValue();
             double avaluo = Double.parseDouble(txtAvaluo.getText().replace(",", "").replace("'", ""));
-            int cilindraje = Integer.parseInt(txtCilindraje.getText());
-            String tipoVehiculo = txtTipoVehiculo.getText().trim().toLowerCase();
+            String tipoUso = cmbTipoUso.getValue().trim().toLowerCase();
 
-            // 🚀 Depuración - Mostrar valores ingresados en la consola
-            System.out.println("Avalúo: " + avaluo);
-            System.out.println("Cilindraje: " + cilindraje);
-            System.out.println("Tipo de Vehículo: " + tipoVehiculo);
+            // Crear objeto Vehiculo
+            Vehiculo vehiculo = new Vehiculo(marcaModelo, anio, cilindraje, avaluo, tipoUso);
 
-            // 🔥 Calcular el impuesto
-            double impuesto = calcularMontoImpuesto(avaluo, cilindraje, tipoVehiculo);
-
-            System.out.println("Impuesto Calculado: $" + impuesto); // 🛠 Verificar cálculo
+            // Calcular impuesto
+            double impuesto = CalculadoraImpuestos.calcularImpuesto(vehiculo);
 
             lblResultado.setText("Monto del Impuesto: $" + impuesto);
-        } catch (NumberFormatException e) {
-            lblResultado.setText("Entrada inválida. Ingrese los datos correctamente.");
+        } catch (Exception e) {
+            lblResultado.setText("Seleccione valores válidos.");
             e.printStackTrace();
         }
-    }
-
-    private double calcularMontoImpuesto(double avaluo, int cilindraje, String tipoVehiculo) {
-        double tasaImpuesto = 0.0;
-
-        // 🚗 Vehículos particulares
-        if (tipoVehiculo.equals("particular") || tipoVehiculo.equals("privado")) {
-            if (avaluo <= 54057000) {
-                tasaImpuesto = 0.015;  // 1.5%
-            } else if (avaluo <= 121625000) {
-                tasaImpuesto = 0.025;  // 2.5%
-            } else {
-                tasaImpuesto = 0.035;  // 3.5%
-            }
-        }
-        // 🏍️ Motocicletas de más de 125 cm³
-        else if (tipoVehiculo.equals("moto") && cilindraje > 125) {
-            tasaImpuesto = 0.015; // 1.5% para motos de más de 125 cm³
-        }
-        // 🚕 Vehículos públicos
-        else if (tipoVehiculo.equals("publico") || tipoVehiculo.equals("público")) {
-            tasaImpuesto = 0.015; // 1.5% para vehículos públicos
-        }
-        // ❌ Si el tipo de vehículo no es válido, devolver 0
-        else {
-            return 0;
-        }
-
-        // 💰 Calcular el impuesto
-        double montoImpuesto = avaluo * tasaImpuesto;
-        return Math.round(montoImpuesto * 100.0) / 100.0;
     }
 
     @FXML
     private void limpiarCampos() {
         txtMarcaModelo.clear();
-        txtAnio.clear();
-        txtCilindraje.clear();
+        cmbAnio.getSelectionModel().clearSelection();
+        cmbCilindraje.getSelectionModel().clearSelection();
         txtAvaluo.clear();
-        txtTipoVehiculo.clear();
+        cmbTipoUso.getSelectionModel().clearSelection();
         lblResultado.setText("Monto del Impuesto: $0.0");
     }
 }

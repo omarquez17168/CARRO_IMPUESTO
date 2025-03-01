@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
@@ -16,21 +16,20 @@
     <TextField fx:id="txtMarcaModelo"/>
 
     <Label text="Año de Fabricación:"/>
-    <TextField fx:id="txtAnio"/>
+    <ComboBox fx:id="cmbAnio"/>
 
     <Label text="Cilindraje (cc):"/>
-    <TextField fx:id="txtCilindraje"/>
+    <ComboBox fx:id="cmbCilindraje"/>
 
     <Label text="Avalúo Comercial ($):"/>
     <TextField fx:id="txtAvaluo"/>
 
-    <Label text="Tipo de Vehículo (Particular/Público):"/>
-    <TextField fx:id="txtTipoVehiculo"/>
+    <Label text="Tipo de Uso (Particular/Público):"/>
+    <ComboBox fx:id="cmbTipoUso"/>
 
     <Button text="Calcular Impuesto" onAction="#calcularImpuesto"/>
+    <Button text="Limpiar Campos" onAction="#limpiarCampos"/>
 
     <Label fx:id="lblResultado" text="Monto del Impuesto: $" style="-fx-font-size: 16px; -fx-text-fill: green;"/>
-
-    <Button text="Limpiar Campos" onAction="#limpiarCampos"/>
 
 </VBox>
